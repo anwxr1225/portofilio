@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Themed Interactive Questions</title>
+    <!-- Link to Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fce4ec;
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            overflow: hidden; /* To prevent scrollbars when balloons float */
+            font-family: 'Roboto', sans-serif;
+        }
+        .question-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            display: none; /* Initially hide all containers */
+            max-width: 500px;
+        }
+        .question {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #d32f2f;
+        }
+        .button {
+            padding: 12px 25px;
+            margin: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            background-color: #ffeb3b;
+            color: #000;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #ffc107;
+        }
+        .button.no {
+            background-color: #f44336;
+            color: #fff;
+        }
+        .button.no:hover {
+            background-color: #e53935;
+        }
+        .balloons-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: none; /* Initially hidden until the last stage */
+            text-align: center;
+        }
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            width: 80px;
+            height: 120px;
+            background-color: #ff4081;
+            border-radius: 50% 50% 45% 45%;
+            animation: floatUp 7s ease-in infinite;
+        }
+        .balloon:nth-child(2) { background-color: #3f51b5; animation-delay: 2s; left: 20%; }
+        .balloon:nth-child(3) { background-color: #ffeb3b; animation-delay: 4s; left: 40%; }
+        .balloon:nth-child(4) { background-color: #8bc34a; animation-delay: 1s; left: 60%; }
+        .balloon:nth-child(5) { background-color: #ff5722; animation-delay: 3s; left: 80%; }
+        @keyframes floatUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-110vh); }
+        }
+        .happy-birthday {
+            position: absolute;
+            top: 10%;
+            width: 100%;
+            font-size: 48px;
+            font-weight: bold;
+            color: #ff4081;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out forwards, dance 1s ease-in-out infinite;
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes dance {
+            0% { transform: translateY(0); }
+            25% { transform: translateY(-10px); }
+            50% { transform: translateY(10px); }
+            75% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        .no-response-container {
+            display: none;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .no-response-message {
+            font-size: 36px;
+            color: #00796b;
+            margin-bottom: 20px;
+        }
+        .game-button {
+            padding: 12px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            background-color: #80deea;
+            color: #000;
+            transition: background-color 0.3s ease;
+        }
+        .game-button:hover {
+            background-color: #4dd0e1;
+        }
+        .disabled-button {
+            cursor: not-allowed;
+            background-color: #e0e0e0;
+            color: #b0b0b0;
+        }
+    </style>
+</head>
+<body>
+    <!-- First Question: Name -->
+    <div class="question-container" id="first-question">
+        <div class="question">Is your name Nada Ahmed?</div>
+        <button class="button yes" onclick="handleNameResponse(true)">Yes</button>
+        <button class="button no" onclick="handleNameResponse(false)">No</button>
+    </div>
+
+    <!-- Second Question: Birthday Date -->
+    <div class="question-container" id="second-question">
+        <div class="question">Hello, Nada! Is your birthday 9/9?</div>
+        <button class="button yes" onclick="handleBirthdayResponse(true)">Yes</button>
+        <button class="button no" onclick="handleBirthdayResponse(false)">No</button>
+    </div>
+
+    <!-- Third Question: Creative Question 1 -->
+    <div class="question-container" id="third-question">
+        <div class="question">Do you believe in birthday wishes coming true? 🌠</div>
+        <button class="button yes" onclick="handleCreativeResponse1(true)">Yes</button>
+        <button class="button no" onclick="handleCreativeResponse1(false)">No</button>
+    </div>
+
+    <!-- Fourth Question: Creative Question 2 -->
+    <div class="question-container" id="fourth-question">
+        <div class="question">Would you rather eat cake for breakfast? 🍰</div>
+        <button class="button yes" onclick="handleCreativeResponse2(true)">Yes</button>
+        <button class="button no" onclick="handleCreativeResponse2(false)">No</button>
+    </div>
+
+    <!-- Fifth Question: Creative Question 3 -->
+    <div class="question-container" id="fifth-question">
+        <div class="question">Do you want to see a surprise? 🎉</div>
+        <button class="button yes" onclick="handleCreativeResponse3(true)">Yes</button>
+        <button class="button no" onclick="handleCreativeResponse3(false)">No</button>
+    </div>
+
+    <!-- Surprise with Balloons and Happy Birthday Message -->
+    <div class="balloons-container" id="balloons-container">
+        <div class="happy-birthday">Happy Birthday Nadduuda! 🎈🎂🥳</div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+    </div>
+
+    <!-- No Response Page -->
+    <div class="no-response-container" id="no-response-container">
+        <div class="no-response-message">Oops! Looks like you're not interested.</div>
+        <div class="game-container">
+            <div class="message">But how about a quick game to lighten the mood?</div>
+            <button class="game-button" onclick="startGame()">Play Game</button>
+        </div>
+    </div>
+
+    <!-- Birthday Song -->
+    <audio id="birthday-song" src="https://serv100.albumaty.com/dl/non/nancy-ajram/albums/sh5bt-sh5abet/06.3eed_Melad.mp3"></audio>
+
+    <script>
+        // Show the first question when the page loads
+        document.getElementById('first-question').style.display = 'block';
+
+        // Handle response for the first question about the name
+        function handleNameResponse(isYes) {
+            if (isYes) {
+                // Hide the first question and show the second question
+                document.getElementById('first-question').style.display = 'none';
+                document.getElementById('second-question').style.display = 'block';
+            } else {
+                disableButtons('first-question');
+                alert("You cannot proceed with 'No'.");
+            }
+        }
+
+        // Handle response for the second question about the birthday date
+        function handleBirthdayResponse(isYes) {
+            if (isYes) {
+                // Hide the second question and show the third question
+                document.getElementById('second-question').style.display = 'none';
+                document.getElementById('third-question').style.display = 'block';
+            } else {
+                disableButtons('second-question');
+                alert("You cannot proceed with 'No'.");
+            }
+        }
+
+        // Handle response for the third creative question
+        function handleCreativeResponse1(isYes) {
+            if (isYes) {
+                // Hide the third question and show the fourth question
+                document.getElementById('third-question').style.display = 'none';
+                document.getElementById('fourth-question').style.display = 'block';
+            } else {
+                disableButtons('third-question');
+                alert("We hope your birthday wishes still come true!");
+            }
+        }
+
+        // Handle response for the fourth creative question
+        function handleCreativeResponse2(isYes) {
+            if (isYes) {
+                // Hide the fourth question and show the fifth question
+                document.getElementById('fourth-question').style.display = 'none';
+                document.getElementById('fifth-question').style.display = 'block';
+            } else {
+                disableButtons('fourth-question');
+                alert("Cake for breakfast sounds fun, doesn't it?");
+            }
+        }
+
+        // Handle response for the fifth creative question
+        function handleCreativeResponse3(isYes) {
+            if (isYes) {
+                // Hide the fifth question and show the balloons page
+                document.getElementById('fifth-question').style.display = 'none';
+                document.getElementById('balloons-container').style.display = 'block';
+
+                // Play the birthday song
+                document.getElementById('birthday-song').play();
+            } else {
+                disableButtons('fifth-question');
+                alert("Aww, we hope you still have a fantastic day!");
+            }
+        }
+
+        // Function to disable all buttons in a given container
+        function disableButtons(containerId) {
+            const buttons = document.querySelectorAll(`#${containerId} .button.no`);
+            buttons.forEach(button => {
+                button.classList.add('disabled-button');
+                button.setAttribute('disabled', 'true');
+            });
+        }
+
+        // Function to start the game
+        function startGame() {
+            alert('Let’s play a fun trivia game! What is the capital of France?');
+            // You could add more interactive elements or games here
+        }
+    </script>
+</body>
+</html>
